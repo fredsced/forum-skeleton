@@ -36,7 +36,6 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
     public void update(Long id, AnswerUpdateDto dto) {
         Answer answer = answers.findById(id).get();
         getMapper().map(dto, answer);
-        setQuestion(answer, dto.getQuestionId());
         answers.save(answer);
     }
 
