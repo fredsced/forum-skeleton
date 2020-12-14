@@ -21,7 +21,7 @@ public class Answer extends AbstractEntity {
     @Column(name = "answer_datetime")
     private LocalDateTime answerDate;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
 
