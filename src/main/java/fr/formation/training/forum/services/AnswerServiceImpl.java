@@ -1,6 +1,7 @@
 package fr.formation.training.forum.services;
 
 import fr.formation.training.forum.dtos.AnswerAddDto;
+import fr.formation.training.forum.dtos.AnswerUpdateDto;
 import fr.formation.training.forum.dtos.IdentifierDto;
 import fr.formation.training.forum.entities.Answer;
 import fr.formation.training.forum.entities.Question;
@@ -29,6 +30,14 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
         setQuestion(answer, dto.getQuestionId());
         answers.save(answer);
         return new IdentifierDto(answer.getId());
+    }
+
+    @Override
+    public void update(Long id, AnswerUpdateDto dto) {
+        Answer answer = answers.findById(id).get();
+        getMapper().map(dto, answer);
+        setQuestion(answer, dto.getQuestionId());
+        answers.save(answer);
     }
 
     private void setQuestion(Answer answer, Long questionId) {

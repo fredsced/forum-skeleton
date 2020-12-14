@@ -1,6 +1,5 @@
 package fr.formation.training.forum.repositories;
 
-import fr.formation.training.forum.dtos.IdentifierDto;
 import fr.formation.training.forum.entities.Answer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
