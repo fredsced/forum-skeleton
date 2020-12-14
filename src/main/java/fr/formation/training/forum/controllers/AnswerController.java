@@ -24,6 +24,7 @@ public class AnswerController {
         return service.add(dto);
     }
     @PatchMapping("/{id}")
+
     public void update(@PathVariable("id") Long id, @RequestBody @Valid AnswerUpdateDto dto ){
         service.update(id, dto);
     }

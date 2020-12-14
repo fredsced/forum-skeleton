@@ -8,7 +8,6 @@ public class AnswerUpdateDto {
     @Size(max = 1000)
     private String text;
 
-
     public String getText() {
         return text;
     }
