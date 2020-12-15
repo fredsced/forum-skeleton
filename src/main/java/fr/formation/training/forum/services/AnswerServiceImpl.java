@@ -1,5 +1,6 @@
 package fr.formation.training.forum.services;
 
+import fr.formation.training.forum.NotFoundException;
 import fr.formation.training.forum.dtos.AnswerAddDto;
 import fr.formation.training.forum.dtos.AnswerUpdateDto;
 import fr.formation.training.forum.dtos.IdentifierDto;
@@ -34,7 +35,7 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
 
     @Override
     public void update(Long id, AnswerUpdateDto dto) {
-        Answer answer = answers.findById(id).get();
+        Answer answer = answers.findById(id).orElseThrow(NotFoundException::new);
         getMapper().map(dto, answer);
         answers.save(answer);
     }
