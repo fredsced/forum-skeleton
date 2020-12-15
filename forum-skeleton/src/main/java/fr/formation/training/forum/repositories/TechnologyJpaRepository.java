@@ -11,8 +11,7 @@ public interface TechnologyJpaRepository
 	extends JpaRepository<Technology, Long> {
 
     @Query("select new fr.formation.training.forum.dtos.TechnologyViewDto"
-	    + "(t.id, t.name, t.rating) "
-	    + "from Technology t order by t.rating desc")
+	    + "(t.id, t.name, t.rating) from Technology t order by t.rating desc")
     List<TechnologyViewDto> getAllProjected();
 
     @Query("select new fr.formation.training.forum.dtos.TechnologyViewDto"
