@@ -4,11 +4,13 @@ import fr.formation.training.forum.NotFoundException;
 import fr.formation.training.forum.dtos.*;
 import fr.formation.training.forum.entities.Question;
 import fr.formation.training.forum.entities.Technology;
+import fr.formation.training.forum.repositories.AnswerJpaRepository;
 import fr.formation.training.forum.repositories.QuestionJpaRepository;
 import fr.formation.training.forum.repositories.TechnologyJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class QuestionServiceImpl extends AbstractService
@@ -18,10 +20,14 @@ public class QuestionServiceImpl extends AbstractService
 
     private final TechnologyJpaRepository technologies;
 
+    private final AnswerJpaRepository answers;
+
     public QuestionServiceImpl(QuestionJpaRepository questions,
-                               TechnologyJpaRepository technologies) {
+                               TechnologyJpaRepository technologies,
+                               AnswerJpaRepository answers) {
         this.questions = questions;
         this.technologies = technologies;
+        this.answers = answers;
     }
 
     @Override
@@ -43,8 +49,9 @@ public class QuestionServiceImpl extends AbstractService
 
     @Override
     public DiscussionViewDto getDiscussion(Long id) {
-        QuestionViewDto questionView = questions.findProjectedById(id);
-        return new DiscussionViewDto(questionView);
+        QuestionViewDto questionView = questions.findProjectedById(id).orElseThrow(NotFoundException::new);
+        List<AnswerViewDto> answersListViewDto = answers.findAllProjectedById(id);
+        return new DiscussionViewDto(questionView, answersListViewDto);
     }
 
     private void setTechnology(Question question, Long technologyId) {
