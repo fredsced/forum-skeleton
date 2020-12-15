@@ -39,6 +39,6 @@ public class TechnologyController {
 
     @DeleteMapping("/bad")
     public void deleteBad() {
-	// TODO
+	service.deleteBad();
     }
 }

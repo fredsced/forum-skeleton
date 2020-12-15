@@ -1,9 +1,11 @@
 package fr.formation.training.forum.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import fr.formation.training.forum.ResourceNotFoundException;
 import fr.formation.training.forum.dtos.*;
 import fr.formation.training.forum.entities.*;
 import fr.formation.training.forum.repositories.*;
@@ -14,11 +16,14 @@ public class QuestionServiceImpl extends AbstractService
 
     private final QuestionJpaRepository questions;
 
+    private final AnswerJpaRepository answers;
+
     private final TechnologyJpaRepository technologies;
 
     public QuestionServiceImpl(QuestionJpaRepository questions,
-	    TechnologyJpaRepository technologies) {
+	    AnswerJpaRepository answers, TechnologyJpaRepository technologies) {
 	this.questions = questions;
+	this.answers = answers;
 	this.technologies = technologies;
     }
 
@@ -33,16 +38,30 @@ public class QuestionServiceImpl extends AbstractService
 
     @Override
     public void update(Long id, QuestionUpdateDto dto) {
-	Question question = questions.findById(id).get();
+	Question question = questions.findById(id)
+		.orElseThrow(() -> new ResourceNotFoundException());
+	//
 	getMapper().map(dto, question);
 	setTechnology(question, dto.getTechnologyId());
 	questions.save(question);
+	// ****************
+	// Optional<Question> optional = questions.findById(id);
+	// if (optional.isEmpty()) {
+	// throw new ResourceNotFoundException();
+	// } else {
+	// Question question = optional.get();
+	// getMapper().map(dto, question);
+	// setTechnology(question, dto.getTechnologyId());
+	// questions.save(question);
+	// }
     }
 
     @Override
     public DiscussionViewDto getDiscussion(Long id) {
-	QuestionViewDto questionView = questions.findProjectedById(id);
-	return new DiscussionViewDto(questionView);
+	QuestionViewDto questionView = questions.findProjectedById(id)
+		.orElseThrow(ResourceNotFoundException::new);
+	List<AnswerViewDto> answersView = answers.findProjectedByQuestionId(id);
+	return new DiscussionViewDto(questionView, answersView);
     }
 
     private void setTechnology(Question question, Long technologyId) {

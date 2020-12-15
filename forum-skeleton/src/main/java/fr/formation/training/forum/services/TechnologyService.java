@@ -9,4 +9,6 @@ public interface TechnologyService {
     List<TechnologyViewDto> getAll();
 
     TechnologyViewDto getOne(Long id);
+
+    void deleteBad();
 }
