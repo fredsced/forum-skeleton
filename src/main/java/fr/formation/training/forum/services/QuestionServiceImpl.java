@@ -2,6 +2,7 @@ package fr.formation.training.forum.services;
 
 import fr.formation.training.forum.NotFoundException;
 import fr.formation.training.forum.dtos.*;
+import fr.formation.training.forum.entities.Answer;
 import fr.formation.training.forum.entities.Question;
 import fr.formation.training.forum.entities.Technology;
 import fr.formation.training.forum.repositories.AnswerJpaRepository;
@@ -48,6 +49,15 @@ public class QuestionServiceImpl extends AbstractService
         getMapper().map(dto, question);
         setTechnology(question, dto.getTechnologyId());
         questions.save(question);
+    }
+
+    @Transactional(readOnly = false)
+    @Override
+    public void remove(Long id) {
+        Question question = questions.findById(id).orElseThrow(NotFoundException::new);
+        List<Answer> answerList = answers.findAllByQuestion(question);
+        answers.deleteAll(answerList);
+        questions.delete(question);
     }
 
     @Transactional(readOnly = true)
