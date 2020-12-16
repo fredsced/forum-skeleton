@@ -9,6 +9,7 @@ import fr.formation.training.forum.entities.Question;
 import fr.formation.training.forum.repositories.AnswerJpaRepository;
 import fr.formation.training.forum.repositories.QuestionJpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,7 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
         this.questions = questions;
     }
 
+    @Transactional(readOnly = false)
     @Override
     public IdentifierDto add(AnswerAddDto dto) {
         Answer answer = getMapper().map(dto, Answer.class);
@@ -33,6 +35,7 @@ public class AnswerServiceImpl extends AbstractService implements AnswerService 
         return new IdentifierDto(answer.getId());
     }
 
+    @Transactional(readOnly = false)
     @Override
     public void update(Long id, AnswerUpdateDto dto) {
         Answer answer = answers.findById(id).orElseThrow(NotFoundException::new);

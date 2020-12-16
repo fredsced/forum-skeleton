@@ -8,6 +8,7 @@ import fr.formation.training.forum.repositories.AnswerJpaRepository;
 import fr.formation.training.forum.repositories.QuestionJpaRepository;
 import fr.formation.training.forum.repositories.TechnologyJpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,6 +31,7 @@ public class QuestionServiceImpl extends AbstractService
         this.answers = answers;
     }
 
+    @Transactional(readOnly = false)
     @Override
     public IdentifierDto add(QuestionAddDto dto) {
         Question question = getMapper().map(dto, Question.class);
@@ -39,6 +41,7 @@ public class QuestionServiceImpl extends AbstractService
         return new IdentifierDto(question.getId());
     }
 
+    @Transactional(readOnly = false)
     @Override
     public void update(Long id, QuestionUpdateDto dto) {
         Question question = questions.findById(id).orElseThrow(NotFoundException::new);
@@ -47,6 +50,7 @@ public class QuestionServiceImpl extends AbstractService
         questions.save(question);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public DiscussionViewDto getDiscussion(Long id) {
         QuestionViewDto questionView = questions.findProjectedById(id).orElseThrow(NotFoundException::new);
