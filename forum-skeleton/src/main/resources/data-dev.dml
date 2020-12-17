@@ -13,3 +13,4 @@ INSERT INTO `technologies` (`technology_name`, `technology_rating`) VALUES
 	('JavaScript', 2.35),
 	('SQL', 1.53),
 	('Visual Basic', 3.92);
+

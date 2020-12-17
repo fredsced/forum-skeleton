@@ -23,4 +23,9 @@ public class Technology extends AbstractEntity {
     public double getRating() {
 	return rating;
     }
+
+    @Override
+    public String toString() {
+	return String.format("{name=%s, rating=%s}", name, rating);
+    }
 }

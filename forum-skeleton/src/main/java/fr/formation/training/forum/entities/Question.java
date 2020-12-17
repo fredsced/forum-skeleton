@@ -67,4 +67,11 @@ public class Question extends AbstractEntity {
     public Technology getTechnology() {
 	return technology;
     }
+
+    @Override
+    public String toString() {
+	return String.format(
+		"{author=%s, questionDate=%s, technology=%s, getId()=%s}",
+		author, questionDate, technology, getId());
+    }
 }

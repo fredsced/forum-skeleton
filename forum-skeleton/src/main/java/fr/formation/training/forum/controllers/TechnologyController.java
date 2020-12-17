@@ -36,6 +36,7 @@ public class TechnologyController {
     public void deleteAll() {
 	// TODO
     }
+    // For illustration:
 
     @DeleteMapping("/bad")
     public void deleteBad() {

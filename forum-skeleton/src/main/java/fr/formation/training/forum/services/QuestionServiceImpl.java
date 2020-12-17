@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.formation.training.forum.ResourceNotFoundException;
 import fr.formation.training.forum.dtos.*;
@@ -27,6 +28,7 @@ public class QuestionServiceImpl extends AbstractService
 	this.technologies = technologies;
     }
 
+    @Transactional
     @Override
     public IdentifierDto add(QuestionAddDto dto) {
 	Question question = getMapper().map(dto, Question.class);
@@ -36,6 +38,7 @@ public class QuestionServiceImpl extends AbstractService
 	return new IdentifierDto(question.getId());
     }
 
+    @Transactional
     @Override
     public void update(Long id, QuestionUpdateDto dto) {
 	Question question = questions.findById(id)
@@ -56,6 +59,7 @@ public class QuestionServiceImpl extends AbstractService
 	// }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public DiscussionViewDto getDiscussion(Long id) {
 	QuestionViewDto questionView = questions.findProjectedById(id)
@@ -67,5 +71,15 @@ public class QuestionServiceImpl extends AbstractService
     private void setTechnology(Question question, Long technologyId) {
 	Technology technology = technologies.getOne(technologyId);
 	question.setTechnology(technology);
+    }
+
+    @Transactional
+    @Override
+    public void remove(Long id) {
+	if (!questions.existsById(id)) {
+	    throw new ResourceNotFoundException();
+	}
+	answers.deleteByQuestionId(id);
+	questions.deleteById(id);
     }
 }

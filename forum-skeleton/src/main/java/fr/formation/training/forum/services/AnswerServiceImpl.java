@@ -3,6 +3,7 @@ package fr.formation.training.forum.services;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.formation.training.forum.dtos.*;
 import fr.formation.training.forum.entities.*;
@@ -22,6 +23,7 @@ public class AnswerServiceImpl extends AbstractService
 	this.answers = answers;
     }
 
+    @Transactional
     @Override
     public IdentifierDto add(AnswerAddDto dto) {
 	Answer answer = getMapper().map(dto, Answer.class);
@@ -32,6 +34,7 @@ public class AnswerServiceImpl extends AbstractService
 	return new IdentifierDto(answer.getId());
     }
 
+    @Transactional
     @Override
     public void update(Long id, AnswerUpdateDto dto) {
 	Answer answer = answers.findById(id).get();

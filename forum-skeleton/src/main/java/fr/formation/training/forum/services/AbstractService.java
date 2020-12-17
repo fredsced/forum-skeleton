@@ -8,6 +8,10 @@ public abstract class AbstractService {
     @Autowired
     private ModelMapper mapper;
 
+    protected AbstractService() {
+	//
+    }
+
     protected final ModelMapper getMapper() {
 	return mapper;
     }

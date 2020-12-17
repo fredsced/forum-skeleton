@@ -9,4 +9,6 @@ public interface QuestionService {
     DiscussionViewDto getDiscussion(Long id);
 
     void update(Long id, QuestionUpdateDto dto);
+
+    void remove(Long id);
 }
