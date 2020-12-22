@@ -1,8 +1,8 @@
 package fr.formation.training.forum.entities;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * A question. The natural key of the entity is the author and question creation
@@ -27,6 +27,9 @@ public class Question extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "technology_id")
     private Technology technology;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "question")
+    private List<Answer> answers;
 
     public void setQuestionDate(LocalDateTime creationDate) {
 	questionDate = creationDate;
