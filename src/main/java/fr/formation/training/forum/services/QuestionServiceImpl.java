@@ -56,7 +56,7 @@ public class QuestionServiceImpl extends AbstractService
         if (!questions.existsById(id))
             throw (new NotFoundException());
 
-        answers.deleteByQuestionId(id);
+        //answers.deleteByQuestionId(id);
         questions.deleteById(id);
 
     }
